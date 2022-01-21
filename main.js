@@ -17,23 +17,29 @@ let snake = [...initSnake]
 
 let direction = "right"
 
+let canChangeDirection = true
+
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowUp":
-      if (direction === "down") return
+      if (direction === "down" || !canChangeDirection) return
       direction = "up"
+      canChangeDirection = false
       break
     case "ArrowDown":
-      if (direction === "up") return
+      if (direction === "up" || !canChangeDirection) return
       direction = "down"
+      canChangeDirection = false
       break
     case "ArrowLeft":
-      if (direction === "right") return
+      if (direction === "right" || !canChangeDirection) return
       direction = "left"
+      canChangeDirection = false
       break
     case "ArrowRight":
-      if (direction === "left") return
+      if (direction === "left" || !canChangeDirection) return
       direction = "right"
+      canChangeDirection = false
       break
   }
 })
@@ -70,6 +76,7 @@ function snakeMove() {
   // 自身碰撞
   const selfCollision = snake.some(([x, y]) => next[0] === x && next[1] === y)
   if (boundary || selfCollision) {
+    debugger
     return restart()
   }
 
@@ -79,14 +86,16 @@ function snakeMove() {
     return
   }
   snake.shift()
+
+  canChangeDirection = true
 }
 
 function drawSnake() {
-  ctx.fillStyle = "black"
+  let step = 100 / (snake.length - 1)
   for (let i = 0; i < snake.length; i++) {
-    if (i === snake.length - 1) {
-      ctx.fillStyle = "red"
-    }
+    const percent = Math.min(100 - step * i, 90)
+    ctx.fillStyle = `hsl(0,0%,${percent}%)`
+
     ctx.fillRect(
       snake[i][0] * cellLength,
       snake[i][1] * cellLength,
@@ -111,7 +120,7 @@ function generateRandomFood() {
 }
 
 function drawFood() {
-  ctx.fillStyle = "black"
+  ctx.fillStyle = "#ff7875"
   ctx.fillRect(
     foodPosition[0] * cellLength,
     foodPosition[1] * cellLength,
@@ -121,6 +130,7 @@ function drawFood() {
 }
 
 function drawBackground() {
+  ctx.strokeStyle = "#bfbfbf"
   for (let i = 0; i <= height / cellLength; i++) {
     ctx.beginPath()
     ctx.moveTo(0, cellLength * i)
@@ -149,11 +159,11 @@ function clearCanvas() {
 }
 
 function draw() {
+  snakeMove()
   clearCanvas()
   drawBackground()
   drawSnake()
   drawFood()
-  snakeMove()
 }
 
 function animate() {
