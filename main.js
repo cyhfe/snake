@@ -1,9 +1,9 @@
-const canvas = document.createElement("canvas")
+const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
 
-const width = 200
-const height = 200
-const cellLength = 10
+const width = 400
+const height = 400
+const cellLength = 20
 
 let foodPosition
 
@@ -11,16 +11,13 @@ let initSnake = [
   [0, 0],
   [1, 0],
   [2, 0],
-  [3, 0],
-  [4, 0],
-  [5, 0],
 ]
 
 let snake = [...initSnake]
 
 let direction = "right"
 
-window.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowUp":
       if (direction === "down") return
@@ -107,7 +104,7 @@ function generateRandomFood() {
   const randomY = Math.floor(Math.random() * (height / cellLength))
   for (let i = 0; i < snake.length; i++) {
     if (snake[i][0] === randomX && snake[i][1] === randomY) {
-      generateRandomFood()
+      return generateRandomFood()
     }
   }
   foodPosition = [randomX, randomY]
@@ -145,7 +142,6 @@ function render() {
   drawBackground()
   drawSnake()
   drawFood()
-  document.body.appendChild(canvas)
 }
 
 function clearCanvas() {
@@ -160,15 +156,16 @@ function draw() {
   snakeMove()
 }
 
-function loop() {
+function animate() {
   let count = 0
-  function animate() {
-    requestAnimationFrame(animate)
-    if (++count < 5) return
-    count = 0
-    draw()
+  function loop() {
+    if (++count > 5) {
+      draw()
+      count = 0
+    }
+    requestAnimationFrame(loop)
   }
-  requestAnimationFrame(animate)
+  requestAnimationFrame(loop)
 }
 
 function restart() {
@@ -179,4 +176,4 @@ function restart() {
 
 generateRandomFood()
 render()
-loop()
+animate()
