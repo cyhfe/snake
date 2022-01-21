@@ -5,6 +5,8 @@ const width = 200
 const height = 200
 const cellLength = 10
 
+let foodPosition
+
 let initSnake = [
   [0, 0],
   [1, 0],
@@ -75,6 +77,10 @@ function snakeMove() {
   }
 
   snake.push(next)
+  if (next[0] === foodPosition[0] && next[1] === foodPosition[1]) {
+    generateRandomFood()
+    return
+  }
   snake.shift()
 }
 
@@ -93,15 +99,29 @@ function drawSnake() {
   }
 }
 
-function drawFood() {
-  let blank = []
-  for (let i = 0; i < width / cellLength; i++) {
-    for (let j = 0; j < height / cellLength; j++) {
-      blank.push([i, j])
+function generateRandomFood() {
+  if (snake.length > width * height) {
+    return alert("you win")
+  }
+  const randomX = Math.floor(Math.random() * (width / cellLength))
+  const randomY = Math.floor(Math.random() * (height / cellLength))
+  for (let i = 0; i < snake.length; i++) {
+    if (snake[i][0] === randomX && snake[i][1] === randomY) {
+      generateRandomFood()
     }
   }
+  foodPosition = [randomX, randomY]
 }
-drawFood()
+
+function drawFood() {
+  ctx.fillStyle = "black"
+  ctx.fillRect(
+    foodPosition[0] * cellLength,
+    foodPosition[1] * cellLength,
+    cellLength,
+    cellLength
+  )
+}
 
 function drawBackground() {
   for (let i = 0; i <= height / cellLength; i++) {
@@ -122,6 +142,9 @@ function drawBackground() {
 function render() {
   canvas.width = width
   canvas.height = height
+  drawBackground()
+  drawSnake()
+  drawFood()
   document.body.appendChild(canvas)
 }
 
@@ -133,6 +156,7 @@ function draw() {
   clearCanvas()
   drawBackground()
   drawSnake()
+  drawFood()
   snakeMove()
 }
 
@@ -150,7 +174,9 @@ function loop() {
 function restart() {
   snake = [...initSnake]
   direction = "right"
+  generateRandomFood()
 }
 
+generateRandomFood()
 render()
 loop()

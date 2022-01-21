@@ -1,0 +1,22 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ELIFECYCLE",
+    "errno": "ENOENT",
+    "syscall": "spawn",
+    "file": "sh",
+    "pkgid": "snake@0.0.0",
+    "stage": "dev",
+    "script": "vite",
+    "pkgname": "snake",
+    "err": {
+      "name": "pnpm",
+      "message": "snake@0.0.0 dev: `vite`\nspawn ENOENT",
+      "code": "ELIFECYCLE",
+      "stack": "pnpm: snake@0.0.0 dev: `vite`\nspawn ENOENT\n    at ChildProcess.<anonymous> (/Users/chenyuhao/.nvm/versions/node/v17.3.1/lib/node_modules/pnpm/dist/pnpm.cjs:91958:22)\n    at ChildProcess.emit (node:events:390:28)\n    at maybeClose (node:internal/child_process:1062:16)\n    at Process.ChildProcess._handle.onexit (node:internal/child_process:301:5)"
+    }
+  },
+  "2 warn pnpm:global": " Local package.json exists, but node_modules missing, did you mean to install?"
+}
