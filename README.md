@@ -10,6 +10,12 @@
 
 但是自己实现一个东西带来的成就感，你不断的 debug 和查文档查资料留下的记忆和习惯，这大概就是这个玩意带给我最大的收获吧。
 
+[在线演示](https://cyhfe.github.io/snake/)
+
+[github](https://github.com/cyhfe/snake)
+
+我的 github 一直是单机模式，如果这篇文章对您有所帮助的话欢迎点个 star
+
 ## 数据结构及变量
 
 ```js
